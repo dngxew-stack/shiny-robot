@@ -1,0 +1,976 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <!--
+  Huashu-Design assumptions:
+  - 受众：湖南物理类考生家庭，核心任务是高考志愿决策，不是招生宣传。
+  - 视觉：素色咨询报告页，低饱和、强可读、少装饰；避免渐变、emoji、伪数据和营销式卡片。
+  - 数据：以湖南省教育考试院2025投档线、2026志愿规则、2025一分一段、WEF/PwC/MOE/麦可思/湖南省产业政策为依据。
+  - 约束：2026院校专业组和招生计划必须以潇湘高考系统/招生计划专刊为最终准据；本页给策略和候选池，不替代最终提交表。
+  -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>湖南物理类559分 · AI时代志愿填报深度分析</title>
+  <style>
+    :root {
+      --paper: #f6f2ea;
+      --sheet: #fffdf8;
+      --ink: #1e1e1a;
+      --muted: #68665e;
+      --line: #d8d0c1;
+      --soft: #ede7dc;
+      --olive: #56624a;
+      --olive-2: #eef1e9;
+      --clay: #8b5f4d;
+      --clay-2: #f4e8df;
+      --blue: #435a6d;
+      --blue-2: #e8eef1;
+      --danger: #7b3f3a;
+      --danger-2: #f1e2df;
+      --shadow: 0 18px 44px rgba(66, 55, 38, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--paper);
+      color: var(--ink);
+    }
+
+    body {
+      margin: 0;
+      font-family: "Microsoft YaHei UI", "Microsoft YaHei", "PingFang SC", sans-serif;
+      font-size: 16px;
+      line-height: 1.78;
+      text-wrap: pretty;
+    }
+
+    a {
+      color: inherit;
+      text-decoration-color: rgba(30, 30, 26, 0.32);
+      text-underline-offset: 3px;
+    }
+
+    .page {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 28px 22px 64px;
+    }
+
+    header.hero {
+      min-height: 72vh;
+      display: grid;
+      align-content: center;
+      gap: 28px;
+      border-bottom: 1px solid var(--line);
+      padding: 48px 0 54px;
+    }
+
+    .eyebrow {
+      width: fit-content;
+      border: 1px solid var(--line);
+      padding: 5px 10px;
+      font-size: 13px;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      background: rgba(255, 253, 248, 0.55);
+    }
+
+    h1, h2, h3 {
+      font-family: "SimSun", "Songti SC", "Noto Serif CJK SC", serif;
+      font-weight: 700;
+      line-height: 1.16;
+      letter-spacing: 0;
+      text-wrap: balance;
+      margin: 0;
+    }
+
+    h1 {
+      max-width: 920px;
+      font-size: clamp(38px, 6.6vw, 84px);
+    }
+
+    h2 {
+      font-size: clamp(28px, 3.2vw, 48px);
+      padding-top: 18px;
+    }
+
+    h3 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    p { margin: 0; }
+
+    .lead {
+      max-width: 860px;
+      font-size: clamp(18px, 2vw, 24px);
+      color: #3d3b35;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      border: 1px solid var(--line);
+      background: var(--sheet);
+      box-shadow: var(--shadow);
+    }
+
+    .metric {
+      padding: 20px 18px;
+      border-right: 1px solid var(--line);
+      min-height: 118px;
+    }
+
+    .metric:last-child { border-right: 0; }
+
+    .metric b {
+      display: block;
+      font-family: "SimSun", "Songti SC", serif;
+      font-size: clamp(28px, 3vw, 46px);
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 12px 0;
+      background: color-mix(in oklch, var(--paper) 88%, white);
+      border-bottom: 1px solid rgba(216, 208, 193, 0.72);
+      backdrop-filter: blur(10px);
+    }
+
+    nav a {
+      padding: 7px 10px;
+      border: 1px solid transparent;
+      color: #47443c;
+      font-size: 14px;
+      text-decoration: none;
+    }
+
+    nav a:hover {
+      background: var(--sheet);
+      border-color: var(--line);
+    }
+
+    section {
+      padding: 54px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(180px, 320px) 1fr;
+      gap: 34px;
+      align-items: start;
+      margin-bottom: 26px;
+    }
+
+    .section-head p {
+      max-width: 720px;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .callout {
+      border: 1px solid var(--line);
+      background: var(--sheet);
+      padding: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .callout.strong {
+      background: var(--olive-2);
+      border-color: color-mix(in oklch, var(--olive) 30%, var(--line));
+    }
+
+    .callout.warn {
+      background: var(--danger-2);
+      border-color: color-mix(in oklch, var(--danger) 28%, var(--line));
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      background: var(--sheet);
+      padding: 18px;
+      min-height: 100%;
+    }
+
+    .panel h3 {
+      font-size: 22px;
+    }
+
+    .panel p, .panel li {
+      color: #4c493f;
+    }
+
+    .tag {
+      display: inline-block;
+      margin: 0 6px 8px 0;
+      padding: 3px 8px;
+      border: 1px solid var(--line);
+      background: #fbf8f1;
+      color: #4f4b42;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .tag.good { background: var(--olive-2); border-color: #cdd5c4; }
+    .tag.mid { background: var(--blue-2); border-color: #ccd6dd; }
+    .tag.risk { background: var(--danger-2); border-color: #dec4bf; }
+    .tag.brand { background: var(--clay-2); border-color: #dfcabc; }
+
+    ul {
+      margin: 10px 0 0;
+      padding-left: 20px;
+    }
+
+    li { margin: 8px 0; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--sheet);
+      border: 1px solid var(--line);
+      font-size: 14px;
+    }
+
+    th, td {
+      text-align: left;
+      vertical-align: top;
+      padding: 10px 11px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    th {
+      background: #eee7da;
+      font-weight: 700;
+      color: #343129;
+      white-space: nowrap;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    tbody tr:hover { background: #faf6ee; }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin-top: 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .rank {
+      font-family: "JetBrains Mono", "Consolas", monospace;
+      font-size: 13px;
+      color: #3b3a34;
+      white-space: nowrap;
+    }
+
+    .score {
+      font-family: "JetBrains Mono", "Consolas", monospace;
+      font-weight: 700;
+      color: var(--clay);
+      white-space: nowrap;
+    }
+
+    details {
+      border: 1px solid var(--line);
+      background: var(--sheet);
+      padding: 0;
+      margin-top: 16px;
+    }
+
+    summary {
+      cursor: pointer;
+      padding: 15px 17px;
+      font-weight: 700;
+      color: #353128;
+      border-bottom: 1px solid transparent;
+    }
+
+    details[open] summary {
+      border-bottom-color: var(--line);
+      background: #f0eadf;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 12px;
+      counter-reset: step;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: 14px;
+      align-items: start;
+      border: 1px solid var(--line);
+      background: var(--sheet);
+      padding: 14px;
+    }
+
+    .step::before {
+      counter-increment: step;
+      content: counter(step);
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      background: var(--ink);
+      color: var(--paper);
+      font-family: "Consolas", monospace;
+      font-size: 14px;
+    }
+
+    .source-list {
+      columns: 2;
+      column-gap: 34px;
+      color: #47443d;
+    }
+
+    .source-list li {
+      break-inside: avoid;
+      margin-bottom: 10px;
+    }
+
+    .small {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.65;
+    }
+
+    .print-note {
+      margin-top: 22px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 860px) {
+      .page { padding: 18px 14px 42px; }
+      header.hero { min-height: auto; padding: 42px 0; }
+      .hero-grid, .grid-2, .grid-3, .section-head {
+        grid-template-columns: 1fr;
+      }
+      .metric {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .metric:last-child { border-bottom: 0; }
+      nav { position: static; }
+      .source-list { columns: 1; }
+      table { font-size: 13px; }
+      th, td { padding: 9px; }
+    }
+
+    @media print {
+      nav { display: none; }
+      body { background: white; }
+      .page { max-width: none; padding: 0; }
+      section, header.hero { break-inside: avoid; }
+      .callout, .panel, table { box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="hero" id="top">
+      <div class="eyebrow">湖南物理类 · 559分 · 位次约44,000 · 物化生</div>
+      <h1>AI时代的志愿填报，不是追热点，是找四年后还值钱的能力。</h1>
+      <p class="lead">这份报告把湖南官方投档线、2026志愿规则、就业报告、AI岗位趋势和区域产业承接放在一起看。结论很直接：这个分段要用「硬专业 + 行业学校 + 可迁移技术」守住就业底盘，再用城市和学校层级做加分。</p>
+      <div class="hero-grid" aria-label="核心数据">
+        <div class="metric">
+          <b>559</b>
+          <span>2026湖南物理类考分；本科批物理类控制线为395分</span>
+        </div>
+        <div class="metric">
+          <b>44k</b>
+          <span>用户给定位次约44,000；按位次决策，不按裸分硬比</span>
+        </div>
+        <div class="metric">
+          <b>550-551</b>
+          <span>对应2025湖南物理类约44,000名的等效分段</span>
+        </div>
+        <div class="metric">
+          <b>45组</b>
+          <span>本科批普通类可填45个院校专业组平行志愿</span>
+        </div>
+      </div>
+    </header>
+
+    <nav aria-label="章节导航">
+      <a href="#verdict">结论</a>
+      <a href="#rules">规则与换算</a>
+      <a href="#ai">AI趋势</a>
+      <a href="#majors">专业地图</a>
+      <a href="#schools">候选池</a>
+      <a href="#tier1">北上广深</a>
+      <a href="#strategy">45志愿策略</a>
+      <a href="#risks">风险清单</a>
+      <a href="#sources">来源</a>
+    </nav>
+
+    <section id="verdict">
+      <div class="section-head">
+        <h2>先给判断</h2>
+        <p>44,000名这个位置，不是顶尖计算机随便挑，也不是只能保守求稳。真正的策略是避开「名词很热、门槛很低」的专业，选择AI时代仍需要工程现场、数学建模、硬件系统、行业资质或医学准入的方向。</p>
+      </div>
+
+      <div class="grid-3">
+        <div class="panel">
+          <h3>主线一：硬工科</h3>
+          <p><span class="tag good">电气</span><span class="tag good">电子信息</span><span class="tag good">自动化</span><span class="tag good">通信</span><span class="tag good">能源动力</span></p>
+          <p>AI会写代码、会画图、会生成方案，但电网、工厂、轨道交通、设备调试、嵌入式系统不是一句prompt就能落地。这个分段最该吃的是工程红利。</p>
+        </div>
+        <div class="panel">
+          <h3>主线二：AI底座</h3>
+          <p><span class="tag mid">计算机</span><span class="tag mid">软件</span><span class="tag mid">数据科学</span><span class="tag mid">网络安全</span><span class="tag mid">测控</span></p>
+          <p>计算机不是不能报，是不要把「人工智能」四个字当护身符。优先选有数学、系统、工程、硬件结合的方向，避开空泛的管理类数字化包装。</p>
+        </div>
+        <div class="panel">
+          <h3>主线三：医学准入</h3>
+          <p><span class="tag brand">医学影像</span><span class="tag brand">医学检验</span><span class="tag brand">麻醉</span><span class="tag brand">临床边缘机会</span></p>
+          <p>医学被AI影响很大，但准入门槛仍然硬。问题是培养周期、地域就业和规培成本，必须看孩子是否能接受长期投入。</p>
+        </div>
+      </div>
+
+      <div class="callout strong" style="margin-top:16px">
+        <h3>报考口径</h3>
+        <p>建议用 <strong>10个冲、23个稳、12个保</strong> 的结构。冲不是乱冲名校，稳不是随便填省内，保也不是把孩子塞进天坑专业。每个院校专业组必须展开看6个专业，凡是出现完全不能接受的专业且需要服从调剂，直接降档或删除。</p>
+      </div>
+    </section>
+
+    <section id="rules">
+      <div class="section-head">
+        <h2>规则与换算</h2>
+        <p>湖南新高考的核心单位是「院校专业组」。同一学校不同组，录取分、选科要求、专业质量都可能完全不同。家长最容易犯的错，是拿学校名字代替专业组判断。</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="callout">
+          <h3>位次换算</h3>
+          <ul>
+            <li>用户给定：2026湖南物理类559分，位次约44,000。</li>
+            <li>2025湖南物理类一分一段中，551分累计约44,253名，550分累计约44,942名。</li>
+            <li>所以这份报告用2025投档线的550-551分附近作为主参照，向上看冲，向下做保。</li>
+          </ul>
+        </div>
+        <div class="callout warn">
+          <h3>平行志愿风险</h3>
+          <ul>
+            <li>2026湖南本科批普通类设置45个院校专业组平行志愿。</li>
+            <li>每个院校专业组设6个专业志愿和1个专业服从志愿。</li>
+            <li>平行志愿不是45次录取机会；投档后不符合章程、单科、体检、语种等要求，退档风险要自己承担。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline" style="margin-top:16px">
+        <div class="step">
+          <div>
+            <h3>先锁位次区间</h3>
+            <p>以2025投档线为参照，主战场放在 <strong>545-558</strong>，上探到565，下探到530-540保底。</p>
+          </div>
+        </div>
+        <div class="step">
+          <div>
+            <h3>再看专业组内部</h3>
+            <p>同一学校的第101组、第104组不是一个东西。必须在潇湘高考系统里点开组内专业、人数、学费、校区、单科要求。</p>
+          </div>
+        </div>
+        <div class="step">
+          <div>
+            <h3>最后排顺序</h3>
+            <p>平行志愿也看顺序。把最想去且够得着的放前面；保底组不要全是低质量专业，否则保底等于保坑。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="ai">
+      <div class="section-head">
+        <h2>AI与就业环境</h2>
+        <p>AI趋势不能简化成「学计算机就赢」或「计算机完了」。真正的变化是：低门槛白领任务被压缩，高质量工程岗位更看重复合能力，行业现场和系统能力更值钱。</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="panel">
+          <h3>全球信号</h3>
+          <ul>
+            <li>世界经济论坛《Future of Jobs Report 2025》预计到2030年，结构性变化将创造约1.7亿个岗位，同时替代约9200万个岗位。</li>
+            <li>增长方向集中在AI、大数据、网络安全、软件、绿色转型、工程和护理等领域。</li>
+            <li>结论：岗位不是消失，而是向「会用AI的人 + 有行业底层知识的人」集中。</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h3>AI岗位本身也在升级</h3>
+          <ul>
+            <li>PwC AI Jobs Barometer显示，AI暴露度高的行业，员工人均收入增长更快，技能变化速度也更快。</li>
+            <li>AI不会奖励只会调用工具的人；它奖励能把AI接到业务流程、数据、设备、供应链和组织管理里的人。</li>
+            <li>因此，大学四年要拿到一个「AI+行业」的组合，而不是只追一个热门专业名。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="grid-3" style="margin-top:16px">
+        <div class="panel">
+          <h3>高替代风险</h3>
+          <p><span class="tag risk">基础文案</span><span class="tag risk">普通运营</span><span class="tag risk">低端设计</span><span class="tag risk">重复财务</span><span class="tag risk">普通翻译</span></p>
+          <p>这些岗位的共同点是标准化、可模板化、交付结果容易被模型生成。普通学校普通专业进入这些赛道，议价能力弱。</p>
+        </div>
+        <div class="panel">
+          <h3>中等风险</h3>
+          <p><span class="tag mid">软件开发</span><span class="tag mid">会计审计</span><span class="tag mid">金融分析</span><span class="tag mid">法学文书</span></p>
+          <p>不是不能学，而是门槛抬高。只会基础工具会被替代，懂系统、懂业务、懂合规、能负责结果的人留下。</p>
+        </div>
+        <div class="panel">
+          <h3>低替代但要升级</h3>
+          <p><span class="tag good">电气能源</span><span class="tag good">电子硬件</span><span class="tag good">自动化</span><span class="tag good">医学技术</span><span class="tag good">轨道交通</span></p>
+          <p>这些岗位有现场、设备、责任边界和资质要求。AI会成为工具，但不会轻易替代完整工程责任。</p>
+        </div>
+      </div>
+
+      <div class="callout" style="margin-top:16px">
+        <h3>教育部新专业给出的方向</h3>
+        <p>教育部近年新增和调整的本科专业明显向智能化、低空经济、脑机接口、具身智能、能源与先进制造倾斜。对这个分数段来说，信号不是「冲新专业名字」，而是优先选择能支撑这些产业的底层专业：电子、电气、自动化、机械、通信、计算机、材料中偏半导体方向、能源动力、测控。</p>
+      </div>
+    </section>
+
+    <section id="majors">
+      <div class="section-head">
+        <h2>专业地图</h2>
+        <p>物化生组合的优势是可选面宽。问题也在这里：可选面太宽，容易被漂亮名字带偏。下面按「普通家庭就业导向」排序。</p>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>优先级</th>
+              <th>专业方向</th>
+              <th>AI时代逻辑</th>
+              <th>适配院校类型</th>
+              <th>注意事项</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="tag good">A</span></td>
+              <td>电气工程、能源动力、自动化</td>
+              <td>电网、新能源、工厂、轨交、设备系统都需要工程责任和现场能力。</td>
+              <td>长沙理工、东北电力、南京工程、三峡、华东交通、石家庄铁道等。</td>
+              <td>注意强电/弱电差别，别被调到过冷方向。</td>
+            </tr>
+            <tr>
+              <td><span class="tag good">A</span></td>
+              <td>电子信息、通信、测控、微电子相关</td>
+              <td>AI产业的底座是算力、传感、通信、硬件和工程集成。</td>
+              <td>桂林电子科技、成都信息工程、长春理工、南京信息类、杭州/苏州周边工科校。</td>
+              <td>数学和物理要求高，孩子不能只想“轻松学”。</td>
+            </tr>
+            <tr>
+              <td><span class="tag good">A-</span></td>
+              <td>计算机、软件、数据、网安</td>
+              <td>仍是高流动性赛道，但AI让低端开发内卷更强，必须走系统能力。</td>
+              <td>优先信息类行业校和城市产业强校，不迷信空泛AI专业名。</td>
+              <td>四年必须做项目、竞赛、实习；只靠毕业证不够。</td>
+            </tr>
+            <tr>
+              <td><span class="tag mid">B+</span></td>
+              <td>机械、车辆、智能制造、航空航天基础方向</td>
+              <td>制造业升级需要机械+控制+软件复合人才。</td>
+              <td>南昌航空、沈阳航空航天、燕山、武汉科技、山东科技、昆明理工。</td>
+              <td>别选成纯传统机械，要看是否有智能制造、机器人、车辆电动化方向。</td>
+            </tr>
+            <tr>
+              <td><span class="tag brand">B+</span></td>
+              <td>医学影像、检验、麻醉、临床机会</td>
+              <td>AI辅助诊断会增强工具，但医学资质和线下责任仍有门槛。</td>
+              <td>重庆医科、温州医科、徐州医科、安徽医科、福建医科、哈尔滨医科、桂林医科。</td>
+              <td>培养周期长，是否接受规培、夜班、地域就业，必须提前谈清。</td>
+            </tr>
+            <tr>
+              <td><span class="tag mid">B</span></td>
+              <td>交通运输、土木中偏智能建造、地理信息</td>
+              <td>基建红利下降，但轨交、智慧交通、城市更新仍有需求。</td>
+              <td>华东交通、石家庄铁道、重庆交通、苏州科技等。</td>
+              <td>传统土木慎重，除非学校行业资源强、方向明确。</td>
+            </tr>
+            <tr>
+              <td><span class="tag risk">C</span></td>
+              <td>财经、金融、会计、工商管理</td>
+              <td>AI会压缩重复分析、报表和基础审计，普通学校议价能力下降。</td>
+              <td>只有强财经校、强城市、家里有资源或明确考公考证路径时再考虑。</td>
+              <td>不要因为“体面”就报，体面岗位更看学校层级和家庭资源。</td>
+            </tr>
+            <tr>
+              <td><span class="tag risk">C-</span></td>
+              <td>外语、新闻传播、普通管理、纯生化环材食品农林</td>
+              <td>要么低门槛被AI和平台压价，要么深造周期长、就业口径窄。</td>
+              <td>除非特别喜欢且有强学校平台，否则不作为主线。</td>
+              <td>物化生考到这个位次，不建议把主志愿浪费在低壁垒赛道。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="schools">
+      <div class="section-head">
+        <h2>院校专业组候选池</h2>
+        <p>下表来自湖南省教育考试院2025本科批普通类第一次投档线，已剔除专项、预科、少数民族班和多数中外合作。2026专业组编号、计划人数、组内专业必须以当年系统为准。</p>
+      </div>
+
+      <details open>
+        <summary>第一梯队：硬工科与AI底座候选</summary>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>档位</th>
+                <th>2025投档线</th>
+                <th>院校专业组</th>
+                <th>判断</th>
+                <th>优先看专业</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>冲</td><td class="score">562</td><td>成都信息工程大学 第105组</td><td>信息、气象、计算机氛围强，适合AI底座方向。</td><td>电子信息、计算机、通信、网络安全</td></tr>
+              <tr><td>冲</td><td class="score">561</td><td>长沙理工大学 第105组</td><td>省内电力交通强校，区域就业承接好。</td><td>电气、自动化、交通、能源</td></tr>
+              <tr><td>冲</td><td class="score">560</td><td>成都理工大学 第122组</td><td>工科底子和成都城市加成兼具。</td><td>计算机、电子、地信、资源类谨慎筛</td></tr>
+              <tr><td>冲</td><td class="score">559</td><td>湘潭大学 第106组</td><td>省内综合名校，学校层级稳，但要看组内专业硬不硬。</td><td>数学、计算机、自动化、材料慎筛</td></tr>
+              <tr><td>冲</td><td class="score">558</td><td>南京工业大学 第103组</td><td>长三角工科校，城市和产业环境强。</td><td>自动化、材料需看方向、计算机</td></tr>
+              <tr><td>冲</td><td class="score">558</td><td>浙江理工大学 第106组</td><td>杭州圈层加分，适合工科+数字化。</td><td>电子信息、自动化、计算机</td></tr>
+              <tr><td>稳</td><td class="score">557</td><td>西安理工大学 第103组</td><td>传统工科强，适合工程技术路线。</td><td>电气、水利、自动化、机械</td></tr>
+              <tr><td>稳</td><td class="score">556</td><td>武汉科技大学 第105组</td><td>制造业和材料冶金底色强，智能制造方向可看。</td><td>自动化、机械、计算机，传统材料慎选</td></tr>
+              <tr><td>稳</td><td class="score">556</td><td>湘潭大学 第108组</td><td>稳住学校层级，但仍要看组内专业。</td><td>硬工科优先，管理类后置</td></tr>
+              <tr><td>稳</td><td class="score">555</td><td>湘潭大学 第109组</td><td>省内认可度高，可作为稳段核心。</td><td>看是否能进目标专业</td></tr>
+              <tr><td>稳</td><td class="score">552</td><td>华东交通大学 第111组</td><td>铁路交通行业属性强，实用导向。</td><td>电气、交通、自动化、通信</td></tr>
+              <tr><td>稳</td><td class="score">552</td><td>南昌航空大学 第109组</td><td>航空制造和工科应用属性明显。</td><td>飞行器、机械、电子、自动化</td></tr>
+              <tr><td>稳</td><td class="score">552</td><td>湖北工业大学 第104组</td><td>武汉产业圈，适合工程应用方向。</td><td>电气、自动化、计算机、机械</td></tr>
+              <tr><td>稳</td><td class="score">551</td><td>天津理工大学 第104组</td><td>城市不错，工科应用路线清晰。</td><td>计算机、电子、自动化、管理科学慎筛</td></tr>
+              <tr><td>稳</td><td class="score">551</td><td>沈阳航空航天大学 第102组</td><td>航空工科行业校，适合工程技术型孩子。</td><td>飞行器、机械、电子、自动化</td></tr>
+              <tr><td>稳</td><td class="score">550</td><td>武汉工程大学 第104组</td><td>化工底子强，但要从传统化工里筛智能/电气/计算机。</td><td>电气、自动化、计算机，化工看兴趣</td></tr>
+              <tr><td>稳</td><td class="score">550</td><td>南昌航空大学 第107组</td><td>适合作为稳段工程方向补位。</td><td>航空、机械、材料慎筛</td></tr>
+              <tr><td>稳</td><td class="score">549</td><td>桂林电子科技大学 第104组</td><td>电子信息类性价比高，强烈关注。</td><td>电子信息、通信、计算机、自动化</td></tr>
+              <tr><td>保</td><td class="score">545</td><td>武汉工程大学 第103组</td><td>可作为硬工科保底，但专业要筛。</td><td>电气、自动化、计算机</td></tr>
+              <tr><td>保</td><td class="score">544</td><td>长沙理工大学 第106组</td><td>省内行业认可，保底质量高于许多虚名校。</td><td>电气、交通、能源、自动化</td></tr>
+              <tr><td>保</td><td class="score">542</td><td>哈尔滨理工大学 第102组</td><td>电气、仪器、机械底子硬，地域需接受。</td><td>电气、测控、自动化、机械</td></tr>
+              <tr><td>保</td><td class="score">542</td><td>长沙理工大学 第103组</td><td>省内稳定保底，适合不想离湖南太远。</td><td>工科优先</td></tr>
+              <tr><td>保</td><td class="score">540</td><td>天津理工大学 第101组</td><td>低位可捡城市和工科组合。</td><td>电子、计算机、自动化</td></tr>
+              <tr><td>保</td><td class="score">540</td><td>华东交通大学 第108组</td><td>铁路电气交通方向仍有就业承接。</td><td>电气、交通、通信</td></tr>
+              <tr><td>保</td><td class="score">539</td><td>南京工程学院 第103组</td><td>电力系统口碑好，作为保底很香。</td><td>电气、能源、自动化</td></tr>
+              <tr><td>保</td><td class="score">539</td><td>石家庄铁道大学 第108组</td><td>铁路交通行业属性明确。</td><td>电气、交通、土木慎筛</td></tr>
+              <tr><td>保</td><td class="score">538</td><td>南京工程学院 第104组</td><td>保底优质选择之一，尤其看电气相关。</td><td>电气、自动化、能源</td></tr>
+              <tr><td>保</td><td class="score">535</td><td>西安科技大学 第102组</td><td>传统工科校，保底可用。</td><td>电气、自动化、计算机，采矿安全看接受度</td></tr>
+              <tr><td>垫</td><td class="score">534</td><td>东北电力大学 第101组</td><td>电力特色明显，低分组必须重点核对专业。</td><td>电气、能源动力、自动化</td></tr>
+              <tr><td>垫</td><td class="score">532</td><td>哈尔滨理工大学 第101组</td><td>可作为防滑档的工程底盘。</td><td>电气、测控、机械</td></tr>
+              <tr><td>垫</td><td class="score">530</td><td>沈阳航空航天大学 第101组</td><td>行业校保底，适合能接受东北城市。</td><td>航空、机械、电子</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+
+      <details>
+        <summary>第二梯队：医学与医学技术候选</summary>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>档位</th>
+                <th>2025投档线</th>
+                <th>院校专业组</th>
+                <th>判断</th>
+                <th>提醒</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>冲</td><td class="score">562</td><td>南昌医学院 第102组</td><td>医学方向上探选择，需看是否目标专业。</td><td>医学不是短平快，提前接受培养周期。</td></tr>
+              <tr><td>冲</td><td class="score">560</td><td>南方医科大学 第102组</td><td>学校医学实力强，冲击价值高。</td><td>组内专业不清晰前不要盲冲。</td></tr>
+              <tr><td>冲</td><td class="score">558</td><td>桂林医科大学 第105组</td><td>医学类冲段，可看临床相关机会。</td><td>地域和医院资源要一起看。</td></tr>
+              <tr><td>稳</td><td class="score">557</td><td>重庆医科大学 第104组</td><td>医学认可度好，稳段重点。</td><td>专业比学校名更关键。</td></tr>
+              <tr><td>稳</td><td class="score">555</td><td>安徽医科大学 第101组</td><td>医学技术和临床边缘机会可看。</td><td>注意体检和色弱限制。</td></tr>
+              <tr><td>稳</td><td class="score">555</td><td>徐州医科大学 第101组</td><td>麻醉等方向传统优势，值得展开看。</td><td>看专业组是否含目标专业。</td></tr>
+              <tr><td>稳</td><td class="score">554</td><td>福建医科大学 第104组</td><td>东南沿海医学机会，专业筛选优先。</td><td>学费、校区、培养年限核对。</td></tr>
+              <tr><td>稳</td><td class="score">553</td><td>哈尔滨医科大学 第107组</td><td>医学底子硬，地域偏远换专业质量。</td><td>孩子能否接受东北很重要。</td></tr>
+              <tr><td>稳</td><td class="score">552</td><td>重庆医科大学 第102组</td><td>稳段医学核心候选。</td><td>不要被调到不想读的长周期专业。</td></tr>
+              <tr><td>稳</td><td class="score">549</td><td>温州医科大学 第101组</td><td>眼视光等方向有名气，专业需核验。</td><td>优先看王牌是否在组内。</td></tr>
+              <tr><td>保</td><td class="score">547</td><td>哈尔滨医科大学 第109组</td><td>医学保底质量不错。</td><td>地域和就业城市要提前商量。</td></tr>
+              <tr><td>保</td><td class="score">546</td><td>福建医科大学 第103组</td><td>医学保底候选。</td><td>组内专业决定价值。</td></tr>
+              <tr><td>保</td><td class="score">545</td><td>成都中医药大学 第106组</td><td>中医药类可看，但就业路径分化大。</td><td>不喜欢中医体系别勉强。</td></tr>
+              <tr><td>垫</td><td class="score">540</td><td>哈尔滨医科大学 第110组</td><td>医学防滑档选择。</td><td>不要为了医科大学名字牺牲专业接受度。</td></tr>
+              <tr><td>垫</td><td class="score">538</td><td>西南医科大学 第105组</td><td>可作为医学方向后段补位。</td><td>专业、校区、实习基地逐项核对。</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+
+      <details>
+        <summary>第三梯队：211名头与区域取舍候选</summary>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>档位</th>
+                <th>2025投档线</th>
+                <th>院校专业组</th>
+                <th>适合什么家庭</th>
+                <th>风险</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>冲</td><td class="score">561</td><td>中国石油大学(北京)克拉玛依校区 第104组</td><td>想要211牌子，能接受新疆和能源行业。</td><td>地域和行业偏好必须接受。</td></tr>
+              <tr><td>冲</td><td class="score">561</td><td>石河子大学 第104组</td><td>看重211和保研/考研标签，接受区域成本。</td><td>城市机会弱于中东部。</td></tr>
+              <tr><td>冲</td><td class="score">560</td><td>新疆大学 第104组</td><td>想拿211层级，能接受远距离。</td><td>专业不硬就不要只为牌子。</td></tr>
+              <tr><td>冲</td><td class="score">558</td><td>东北林业大学 第105组</td><td>211名头，东北地域成本换学校层级。</td><td>林学、材料、生物类慎筛。</td></tr>
+              <tr><td>冲</td><td class="score">558</td><td>青海大学 第104组</td><td>211标签，适合愿意去西部的家庭。</td><td>城市与就业半径较窄。</td></tr>
+              <tr><td>稳</td><td class="score">557</td><td>内蒙古大学 第104组</td><td>看重211，接受北方城市。</td><td>专业质量差异大。</td></tr>
+              <tr><td>稳</td><td class="score">556</td><td>东北农业大学 第108组</td><td>211，农工交叉可看。</td><td>纯农学方向需谨慎。</td></tr>
+              <tr><td>稳</td><td class="score">552</td><td>贵州大学 第111组</td><td>211，西南区域，可作为稳段牌子选项。</td><td>专业组内部决定性价比。</td></tr>
+              <tr><td>稳</td><td class="score">552</td><td>辽宁大学 第117组</td><td>211，偏综合/财经法文强。</td><td>物理类若进非硬专业，要谨慎。</td></tr>
+              <tr><td>稳</td><td class="score">551</td><td>东北农业大学 第107组</td><td>211稳段补位。</td><td>别被调到不接受的农学方向。</td></tr>
+              <tr><td>稳</td><td class="score">551</td><td>延边大学 第103组</td><td>211，分数接近等效主位次。</td><td>城市和专业选择都要确认。</td></tr>
+              <tr><td>保</td><td class="score">545</td><td>中国石油大学(北京)克拉玛依校区 第103组</td><td>可作为211能源方向保底。</td><td>地域远，行业偏窄。</td></tr>
+              <tr><td>保</td><td class="score">543</td><td>东北林业大学 第104组</td><td>211低位机会。</td><td>一定筛掉不接受专业。</td></tr>
+              <tr><td>保</td><td class="score">539</td><td>新疆大学 第103/105组</td><td>牌子保底。</td><td>不能只看211，要看孩子愿不愿去。</td></tr>
+              <tr><td>垫</td><td class="score">535</td><td>青海大学 第105组</td><td>防滑档的211选项。</td><td>区域就业与专业接受度优先核对。</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+
+      <div class="callout warn" style="margin-top:18px">
+        <h3>中外合作单列</h3>
+        <p>如果家庭能稳定承担较高学费，可把安徽大学中外、浙江工业大学中外、西南交通大学中外、合肥工业大学中外、中国地质大学(武汉)中外、东北电力中外、西安邮电中外等作为“学校层级上探”工具。但中外合作不是捡漏，是用钱买分数差和培养模式。英语成绩、学费、是否出国、毕业证书标注都要逐项核实。</p>
+      </div>
+    </section>
+
+    <section id="tier1">
+      <div class="section-head">
+        <h2>北上广深机会</h2>
+        <p>一线城市值得看，但不能迷信。一线城市的价值是实习、视野、产业密度和求职半径；代价是同分段可选学校层级下降，热门专业更难拿到，生活成本更高。对559分、44,000名来说，广州最现实，上海可选多，北京要挑专业，深圳不要硬挤。</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="callout strong">
+          <h3>城市机会排序</h3>
+          <p><strong>广州 > 上海 > 北京 > 深圳。</strong> 广州有医学、农业生命科学、药学、金融应用、湾区制造业承接；上海有应用技术、工程技术、第二工业、电机等应用型机会；北京资源强但这个位次多落到市属应用型或语言财经类；深圳产业强，但本科录取门槛高，真能碰的主要是高学费或高要求项目。</p>
+        </div>
+        <div class="callout warn">
+          <h3>别把城市当专业</h3>
+          <p>北上广深不是万能护身符。普通家庭最怕四年后发现：城市是好的，但孩子读的是低壁垒专业，实习卷不过本地985/211和海归。进一线城市，必须带着专业壁垒进去。</p>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>城市</th>
+              <th>2025可参考机会</th>
+              <th>适合怎么报</th>
+              <th>风险判断</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>北京</td>
+              <td>北京工商562/555、北京建筑558、北京物资557/545、北京石油化工550/535、北京联合558/550/546/540、北京第二外国语545、北京语言563。</td>
+              <td>把北京当资源加成，不当学校层级加成。优先北京建筑、北京石油化工、北京工商里偏工科和数据方向；语言、外语、商科要后置。</td>
+              <td>北京机会多，但同分段学校名头不占便宜。若进低壁垒专业，城市红利会被高成本和高竞争抵消。</td>
+            </tr>
+            <tr>
+              <td>上海</td>
+              <td>上海应用技术561/554/536/528、上海工程技术542/526、上海第二工业542/528/524、上海电机532/517、上海立信会计金融539/537/535、上海商学院541/533、上海政法563。</td>
+              <td>适合想去长三角、愿意走应用工程路线的孩子。优先工程技术、第二工业、电机、应用技术里的电气、机械、自动化、计算机、材料应用方向。</td>
+              <td>上海财经、政法、商科类听起来体面，但AI时代低端白领岗位压缩。除非孩子明确考公、考研或家庭有资源，否则不要把它们放主线。</td>
+            </tr>
+            <tr>
+              <td>广州</td>
+              <td>华南农业563/563、广州中医药562/556、广州医科562、南方医科560、广东外语外贸565、广东金融552、广东技术师范545、广东药科540/535、广州航海514；广东工业主线偏高，中外约539。</td>
+              <td>四城里最现实。医学、药学、湾区制造业、智能终端、外贸供应链都有承接。优先南方医科、广州医科、广州中医药、华南农业中偏工科/生物医药/食品质量方向、广东药科。</td>
+              <td>广东外语外贸、广东金融、广东财经这类要慎重。不是不能去，是普通家庭不要把“广州+财经外语”误判成稳定就业。</td>
+            </tr>
+            <tr>
+              <td>深圳</td>
+              <td>深圳大学中外585，深圳职业技术大学574，深圳北理莫斯科562/555且要求数学不低于95、外语不低于110；南方科技大学、港中深通常不在此分段主战场。</td>
+              <td>真正可操作的是深圳北理莫斯科，但它是高学费、强英语数学、国际化培养路径。若家庭预算和孩子能力匹配，可以作为冲稳之间的特殊选项。</td>
+              <td>深圳产业强，但本科入口窄。硬挤深圳不如选择广州、东莞、佛山、珠海等大湾区院校和专业，再通过实习进深圳。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="grid-3" style="margin-top:16px">
+        <div class="panel">
+          <h3>北京怎么选</h3>
+          <p><span class="tag good">工科市属</span><span class="tag mid">资源强</span><span class="tag risk">层级折价</span></p>
+          <p>北京适合目标明确、主动性强的孩子。大学期间必须抢实习、实验室、竞赛和项目；如果只是躺着读一个普通商科外语，四年后竞争很残酷。</p>
+        </div>
+        <div class="panel">
+          <h3>上海怎么选</h3>
+          <p><span class="tag good">长三角就业</span><span class="tag good">应用工科</span><span class="tag risk">商科拥挤</span></p>
+          <p>上海的好处是产业密度和规范化机会，适合电气、自动化、机械、智能制造、软件应用方向。财经法商要看学校层级，不要只看城市。</p>
+        </div>
+        <div class="panel">
+          <h3>广州深圳怎么选</h3>
+          <p><span class="tag good">湾区制造</span><span class="tag good">医药健康</span><span class="tag good">AI终端</span></p>
+          <p>广州更适合作为本科落点，深圳更适合作为实习和就业目标。想进深圳，专业比校址更重要：电子、通信、自动化、计算机、智能制造、医药器械，比普通金融外语靠谱。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="strategy">
+      <div class="section-head">
+        <h2>45志愿排布</h2>
+        <p>真正填表时，不要照抄学校名字。先把每个组展开，看专业、人数、学费、单科、体检、校区，再按下面的结构排序。</p>
+      </div>
+
+      <div class="grid-3">
+        <div class="panel">
+          <h3>冲：10个</h3>
+          <p>分数参考：2025投档线558-565。只冲能接受专业组，不为学校名牺牲底线。</p>
+          <p><span class="tag">成都信息工程</span><span class="tag">长沙理工高组</span><span class="tag">成都理工</span><span class="tag">南京工业</span><span class="tag">浙江理工</span><span class="tag">湘潭高组</span><span class="tag">南方医科</span><span class="tag">东北林业</span></p>
+        </div>
+        <div class="panel">
+          <h3>稳：23个</h3>
+          <p>分数参考：2025投档线547-557。主战场，优先硬专业和行业资源。</p>
+          <p><span class="tag">桂林电子科技</span><span class="tag">华东交通</span><span class="tag">南昌航空</span><span class="tag">湖北工业</span><span class="tag">天津理工</span><span class="tag">重庆医科</span><span class="tag">徐州医科</span><span class="tag">温州医科</span></p>
+        </div>
+        <div class="panel">
+          <h3>保：12个</h3>
+          <p>分数参考：2025投档线530-546。保底也要保就业，不保低壁垒专业。</p>
+          <p><span class="tag">南京工程</span><span class="tag">东北电力</span><span class="tag">哈尔滨理工</span><span class="tag">石家庄铁道</span><span class="tag">长沙理工低组</span><span class="tag">湖南科技</span><span class="tag">沈阳航空航天</span></p>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>家庭目标</th>
+              <th>排序方式</th>
+              <th>优先院校类型</th>
+              <th>不建议</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>就业优先</td>
+              <td>专业组硬度 > 行业校 > 城市 > 学校名头</td>
+              <td>电力、电子、通信、自动化、轨交、航空、医学技术。</td>
+              <td>为了211进纯冷门或低壁垒专业。</td>
+            </tr>
+            <tr>
+              <td>考研/保研优先</td>
+              <td>学校层级 > 学科基础 > 城市</td>
+              <td>湘潭、部分211、西部211、综合实力较强院校。</td>
+              <td>本科专业过窄，考研转向成本高。</td>
+            </tr>
+            <tr>
+              <td>留湖南/华中</td>
+              <td>省内认可 > 可实习半径 > 专业质量</td>
+              <td>长沙理工、湘潭、湖南科技、湖南工商部分硬组、武汉圈工科校。</td>
+              <td>为了离家近牺牲专业底线。</td>
+            </tr>
+            <tr>
+              <td>愿意远行换层级</td>
+              <td>211标签 + 可接受地域 + 硬专业</td>
+              <td>新疆大学、石河子、青海、东北林业、东北农业、延边、内蒙古。</td>
+              <td>只看211，不看孩子能否适应城市和气候。</td>
+            </tr>
+            <tr>
+              <td>能承担中外合作</td>
+              <td>学费能力 > 文凭规则 > 专业质量 > 英语要求</td>
+              <td>合工大、地大、安大、浙工大、西南交、东北电力、西安邮电中外。</td>
+              <td>把中外合作当低分捡漏，不看学费和培养模式。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="risks">
+      <div class="section-head">
+        <h2>最后核验清单</h2>
+        <p>正式填报前，把下面这些问题逐个打勾。志愿填报里最贵的错误不是“不知道”，而是以为自己知道。</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="callout">
+          <h3>专业组核验</h3>
+          <ul>
+            <li>这个组里6个专业，最差那个能不能接受。</li>
+            <li>是否有单科成绩、外语语种、口试、体检、色弱色盲限制。</li>
+            <li>是否有校区差异，是否四年都在同一校区。</li>
+            <li>2026计划人数是否明显缩招；缩招的组要提高风险等级。</li>
+            <li>学费是否为普通学费，是否中外合作或较高收费。</li>
+          </ul>
+        </div>
+        <div class="callout">
+          <h3>家庭核验</h3>
+          <ul>
+            <li>孩子能不能接受东北、西北、西南等远距离城市。</li>
+            <li>是否明确愿意学工科，能否承受数学、物理、编程强度。</li>
+            <li>医学方向是否接受长周期、规培、夜班、地区医院就业。</li>
+            <li>是否有考研规划；如果有，本科专业基础要宽一点。</li>
+            <li>中外合作是否能承担四年总成本，不靠临时咬牙。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout warn" style="margin-top:16px">
+        <h3>网络填报提醒</h3>
+        <p>志愿提交不要拖到截止前最后1小时。湖南官方填报时间窗口明确，网络拥堵、浏览器兼容、短信验证、系统保存失败都不是理论风险。建议提前完成草表，正式系统开放后先保存一版，截止前一天再复核。</p>
+      </div>
+    </section>
+
+    <section id="sources">
+      <div class="section-head">
+        <h2>数据来源</h2>
+        <p>本页只使用可追溯来源，院校专业组分数来自湖南省教育考试院2025本科批普通类第一次投档线附件；行业趋势来自公开报告和政策文件。</p>
+      </div>
+
+      <ol class="source-list">
+        <li><a href="https://jyt.hunan.gov.cn/jyt/sjyt/hnsjyksy/web/ksyzkzx/202507/t20250720_33744762.html" target="_blank" rel="noreferrer">湖南省2025年普通高校招生本科批普通类第一次投档分数线</a></li>
+        <li><a href="https://jyt.hunan.gov.cn/jyt/sjyt/hnsjyksy/web/ksyzkzx/202606/t20260616_34004507.html" target="_blank" rel="noreferrer">湖南省2026年普通高校招生网上填报志愿工作实施方案</a></li>
+        <li><a href="https://jyt.hunan.gov.cn/jyt/sjyt/hnsjyksy/web/ksyzkzx/202606/t20260625_34013270.html" target="_blank" rel="noreferrer">湖南省2026年高考第二次新闻发布会</a></li>
+        <li><a href="https://gaokao.chsi.com.cn/gkxx/zc/ss/202506/20250625/2293392784.html" target="_blank" rel="noreferrer">阳光高考：湖南省2025年普通高考档分1分段统计表</a></li>
+        <li><a href="https://www.weforum.org/publications/the-future-of-jobs-report-2025/" target="_blank" rel="noreferrer">World Economic Forum: The Future of Jobs Report 2025</a></li>
+        <li><a href="https://www.pwc.com/gx/en/services/ai/ai-jobs-barometer.html" target="_blank" rel="noreferrer">PwC AI Jobs Barometer</a></li>
+        <li><a href="https://www.moe.gov.cn/" target="_blank" rel="noreferrer">教育部：普通高等学校本科专业备案和审批结果、专业目录调整信息</a></li>
+        <li><a href="https://www.hunan.gov.cn/" target="_blank" rel="noreferrer">湖南省人民政府：现代化产业体系、先进制造业与产业政策公开信息</a></li>
+        <li><a href="https://fao.sz.gov.cn/xxgk/zyxw/content/post_1533472.html" target="_blank" rel="noreferrer">深圳市2025年政府工作报告：AI、机器人、低空与空天产业数据</a></li>
+        <li><a href="https://www.gz.gov.cn/zwgk/zjgb/zfgzbg/content/post_10134039.html" target="_blank" rel="noreferrer">广州市2025年政府工作报告：琶洲人工智能与数字经济试验区等产业布局</a></li>
+        <li><a href="https://sheitc.sh.gov.cn/rddbta/20251110/bf52c31ff0bb4d7ca2161e1dc416957f.html" target="_blank" rel="noreferrer">上海市经信委：大模型备案与「模塑申城」应用生态</a></li>
+        <li><a href="https://www.bjrd.gov.cn/zyfb/zt/16j4crdh2025/shzhfgzbgjd/202601/t20260126_4466223.html" target="_blank" rel="noreferrer">北京市人大：北京人工智能产业规模与企业生态公开解读</a></li>
+        <li><a href="https://www.rmzxw.com.cn/c/2025-06-11/3732505.shtml" target="_blank" rel="noreferrer">人民政协网：麦可思《2025年中国本科生就业报告》相关报道</a></li>
+      </ol>
+
+      <p class="print-note">查证日期：2026-06-25。网页中的院校专业组建议是策略候选池，不是最终提交表。最终以2026湖南招生计划、院校招生章程、潇湘高考系统显示为准。</p>
+    </section>
+  </div>
+</body>
+</html>
